@@ -1,3 +1,4 @@
+import 'package:academia_gym/telas/AutenticacaoTela.dart';
 import 'package:academia_gym/telas/telas.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Telas());
+    return MaterialApp(home: AutenticacaoTela());
   }
 }
