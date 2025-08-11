@@ -1,5 +1,4 @@
 import 'package:academia_gym/telas/AutenticacaoTela.dart';
-import 'package:academia_gym/telas/telas.dart';
 import 'package:flutter/material.dart';
 
 void main() {
