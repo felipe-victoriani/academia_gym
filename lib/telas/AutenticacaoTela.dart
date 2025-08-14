@@ -1,4 +1,5 @@
 import 'package:academia_gym/_comum/minhas_cores.dart';
+import 'package:academia_gym/componentes/decoracao_campo_autenticacao.dart';
 import 'package:flutter/material.dart';
 
 class AutenticacaoTela extends StatefulWidget {
@@ -10,6 +11,7 @@ class AutenticacaoTela extends StatefulWidget {
 
 class _AutenticacaoTelaState extends State<AutenticacaoTela> {
   bool queroEntrar = true;
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class _AutenticacaoTelaState extends State<AutenticacaoTela> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
+              key: formKey,
               child: Center(
                 child: SingleChildScrollView(
                   child: Column(
@@ -50,31 +53,81 @@ class _AutenticacaoTelaState extends State<AutenticacaoTela> {
                       ),
                       SizedBox(height: 32),
                       TextFormField(
-                        decoration: InputDecoration(label: Text("Email")),
+                        decoration: getAuthenticationInputDecoration("Email"),
+                        validator: (String? value) {
+                          if (value == null) {
+                            return "O email é obrigatório";
+                          }
+                          if (value.length < 5) {
+                            return "O email deve ter pelo menos 5 caracteres";
+                          }
+                          if (!value.contains("@")) {
+                            return "O email deve conter '@'";
+                          }
+
+                          return null;
+                        },
                       ),
+                      const SizedBox(height: 8),
                       TextFormField(
-                        decoration: InputDecoration(label: Text("Senha")),
+                        decoration: getAuthenticationInputDecoration("Senha"),
                         obscureText: true,
+                        validator: (String? value) {
+                          if (value == null) {
+                            return "A senha é obrigatório";
+                          }
+                          if (value.length < 5) {
+                            return "A senha deve ter pelo menos 5 caracteres";
+                          }
+
+                          return null;
+                        },
                       ),
+                      const SizedBox(height: 8),
                       Visibility(
                         visible: !queroEntrar,
                         child: Column(
                           children: [
                             TextFormField(
-                              decoration: InputDecoration(
-                                label: Text("Confirme a Senha"),
+                              decoration: getAuthenticationInputDecoration(
+                                "Confirme a Senha",
                               ),
                               obscureText: true,
+                              validator: (String? value) {
+                                if (value == null) {
+                                  return "A confirmação de senha é obrigatória";
+                                }
+                                if (value.length < 5) {
+                                  return "A confirmação de senha deve ter pelo menos 5 caracteres";
+                                }
+
+                                return null;
+                              },
                             ),
+                            const SizedBox(height: 8),
                             TextFormField(
-                              decoration: InputDecoration(label: Text("Nome")),
+                              decoration: getAuthenticationInputDecoration(
+                                "Nome",
+                              ),
+                              validator: (String? value) {
+                                if (value == null) {
+                                  return "O nome é obrigatório";
+                                }
+                                if (value.length < 5) {
+                                  return "O nome deve ter pelo menos 5 caracteres";
+                                }
+
+                                return null;
+                              },
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          botaoPrincipalClicado();
+                        },
                         child: Text((queroEntrar) ? "entrar" : "cadastrar"),
                       ),
                       Divider(),
@@ -100,5 +153,13 @@ class _AutenticacaoTelaState extends State<AutenticacaoTela> {
         ],
       ),
     );
+  }
+
+  botaoPrincipalClicado() {
+    if (formKey.currentState!.validate()) {
+      print("Formulário válido");
+    } else {
+      print("Formulário inválido");
+    }
   }
 }
